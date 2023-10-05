@@ -3,6 +3,7 @@
 ## Подготовка к выполнению домашнего задания
 
 Домашнее задание выполнено на виртуальной машине, развернутой в YandexCloud под управлением ОС AlmaLinux9.
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-02-sql/sql/sql.png)
 
 1. Установка docker:
 ```
@@ -25,44 +26,126 @@ ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 ```
 ![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-02-sql/sql/sql2.png)
 
-
+3. Создадим директорию для выполнения домашнего задания и перейдем в нее:
+```
+mkdir homework_sql
+cd homework_sql
+```
 
 ## Задача 1
 
 Используя Docker, поднимите инстанс PostgreSQL (версию 12) c 2 volume, 
 в который будут складываться данные БД и бэкапы.
+```
+nano docker-compose.yml
+```
 
-Приведите получившуюся команду или docker-compose-манифест.
+1. Docker-compose-манифест.
+```
+version: '3.8'
+
+volumes:
+  data: {}
+  backup: {}
+
+services:
+  postgres:
+    image: postgres:12
+    container_name: psql
+    ports:
+      - "0.0.0.0:5432:5432"
+    volumes:
+      - data:/var/lib/postgresql/data
+      - backup:/media/postgresql/backup
+    environment:
+      POSTGRES_USER: "admin"
+      POSTGRES_PASSWORD: "admin"
+      POSTGRES_DB: "test_db"
+```
+2. Запуск docker-compose.yml
+```
+docker-compose.yml
+```
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-02-sql/sql/sql3.png)
+
+3. Проверка статуса запущенного контейнера.
+```
+docker ps
+```
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-02-sql/sql/sql4.png)
+
+4. Вход в базу данных.
+```
+docker exec -it c4289e3dc75d bash
+psql -h 127.0.0.1 -U admin -d test_db
+```
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-02-sql/sql/sql5.png)
 
 ## Задача 2
 
 В БД из задачи 1: 
 
-- создайте пользователя test-admin-user и БД test_db;
-- в БД test_db создайте таблицу orders и clients (спeцификация таблиц ниже);
-- предоставьте привилегии на все операции пользователю test-admin-user на таблицы БД test_db;
-- создайте пользователя test-simple-user;
-- предоставьте пользователю test-simple-user права на SELECT/INSERT/UPDATE/DELETE этих таблиц БД test_db.
+1. Создание пользователя test-admin-user и БД test_db.
+```sql
+CREATE USER "test-admin-user";
+```
 
-Таблица orders:
+2. Создание таблицы orders.
+```sql
+CREATE TABLE orders (
+    id SERIAL,
+    наименование VARCHAR, 
+    цена INTEGER,
+    PRIMARY KEY (id)
+);
+```sql
 
-- id (serial primary key);
-- наименование (string);
-- цена (integer).
+3. Создание таблицы clients.
+```sql
+CREATE TABLE clients (
+    id SERIAL,
+    фамилия VARCHAR,
+    "страна проживания" VARCHAR, 
+    заказ INTEGER,
+    PRIMARY KEY (id)
+);
+```
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-02-sql/sql/sql6.png)
 
-Таблица clients:
+4. Предоставление привилегий на все операции пользователю test-admin-user на таблицы БД test_db;
+```sql
+GRANT ALL PRIVILEGES ON TABLE orders, clients to "test-admin-user";
+```
 
-- id (serial primary key);
-- фамилия (string);
-- страна проживания (string, index);
-- заказ (foreign key orders).
+5. Создание пользователя test-simple-user;
+```sql
+CREATE USER "test-simple-user";
+```
 
-Приведите:
+6. Предоставление пользователю test-simple-user права на SELECT/INSERT/UPDATE/DELETE таблиц БД test_db.
+```sql
+GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE orders, clients to "test-simple-user";
+```
+
+7. Приведите:
 
 - итоговый список БД после выполнения пунктов выше;
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-02-sql/sql/sql7.png)
 - описание таблиц (describe);
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-02-sql/sql/sql8.png)
 - SQL-запрос для выдачи списка пользователей с правами над таблицами test_db;
+```sql
+SELECT
+    grantee, table_name, privilege_type
+FROM
+    information_schema.table_privileges
+WHERE
+    grantee in ('test-admin-user','test-simple-user')
+    and table_name in ('clients','orders');
+```
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-02-sql/sql/sql9.png)
 - список пользователей с правами над таблицами test_db.
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-02-sql/sql/sql10.png)
 
 ## Задача 3
 

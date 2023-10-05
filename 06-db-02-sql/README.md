@@ -4,7 +4,7 @@
 
 Домашнее задание выполнено на виртуальной машине, развернутой в YandexCloud под управлением ОС AlmaLinux9.
 
-Установка docker:
+1. Установка docker:
 ```
 su root
 dnf update -y && sudo dnf upgrade -y
@@ -15,6 +15,16 @@ systemctl enable docker.service
 systemctl status docker
 ```
 ![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-02-sql/sql/sql0.png)
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-02-sql/sql/sql1.png)
+
+2. Установка docker-compose:
+```
+curl -L "https://github.com/docker/compose/releases/download/v2.22.0/docker-compose-linux-x86_64" -o /usr/local/bin/docker-compose
+chmod +x /usr/local/bin/docker-compose
+ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+```
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-02-sql/sql/sql2.png)
+
 
 
 ## Задача 1

@@ -1,4 +1,4 @@
-# Домашнее задание к занятию 2. «SQL» - Леонид Хорошев
+![2023-10-06_15-41-07](https://github.com/LeonidKhoroshev/bd-dev-homeworks/assets/114744186/c2243339-aa19-43c4-b09e-7488ba9fed29)# Домашнее задание к занятию 2. «SQL» - Леонид Хорошев
 
 ## Подготовка к выполнению домашнего задания
 
@@ -151,7 +151,7 @@ WHERE
 
 Используя SQL-синтаксис, наполните таблицы следующими тестовыми данными:
 
-Таблица orders
+1. Таблица orders
 
 |Наименование|цена|
 |------------|----|
@@ -160,6 +160,10 @@ WHERE
 |Книга| 500 |
 |Монитор| 7000|
 |Гитара| 4000|
+```sql
+INSERT INTO orders VALUES (1, 'Шоколад', 10), (2, 'Принтер', 3000), (3, 'Книга', 500), (4, 'Монитор', 7000), (5, 'Гитара', 4000);
+```
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-02-sql/sql/sql11.png)
 
 Таблица clients
 
@@ -171,13 +175,19 @@ WHERE
 |Ронни Джеймс Дио| Russia|
 |Ritchie Blackmore| Russia|
 
+```sql
+INSERT INTO clients VALUES (1, 'Иванов Иван Иванович', 'USA'), (2, 'Петров Петр Петрович', 'Canada'), (3, 'Иоганн Себастьян Бах', 'Japan'), (4, 'Ронни Джеймс Дио', 'Russia'), (5, 'Ritchie Blackmore', 'Russia');
+```
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-02-sql/sql/sql12.png)
+
 Используя SQL-синтаксис:
 - вычислите количество записей для каждой таблицы.
 
-Приведите в ответе:
-
-    - запросы,
-    - результаты их выполнения.
+```sql
+SELECT count(1) FROM orders;
+SELECT count(1) FROM clients;
+```
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-02-sql/sql/sql13.png)
 
 ## Задача 4
 

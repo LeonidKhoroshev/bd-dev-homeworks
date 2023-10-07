@@ -202,10 +202,43 @@ SELECT count(1) FROM clients;
 |Иоганн Себастьян Бах| Гитара |
 
 Приведите SQL-запросы для выполнения этих операций.
+```sql
+update clients
+set заказ=(select id from orders where наименование='Книга')
+where фамилия='Иванов Иван Иванович';
+```
+
+```sql
+update clients
+set заказ=(select id from orders where наименование='Монитор')
+where фамилия='Петров Петр Петрович';
+```
+
+```sql
+update clients
+set заказ=(select id from orders where наименование='Гитара')
+where фамилия='Иоганн Себастьян Бах';
+```
+
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-02-sql/sql/sql14.png)
 
 Приведите SQL-запрос для выдачи всех пользователей, которые совершили заказ, а также вывод этого запроса.
- 
-Подсказка: используйте директиву `UPDATE`.
+
+```sql
+select фамилия, заказ from clients where заказ is not null;
+```
+
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-02-sql/sql/sql15.png)
+
+Модернизируем вывод, чтобы увидеть не id заказа, а наименование заказанного товара:
+
+```sql
+SELECT фамилия, наименование
+FROM clients
+JOIN orders ON clients.заказ = orders.id;
+```
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-02-sql/sql/sql16.png)
+
 
 ## Задача 5
 

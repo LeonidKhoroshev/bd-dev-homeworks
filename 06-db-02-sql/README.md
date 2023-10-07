@@ -278,10 +278,30 @@ join orders ON clients.заказ = orders.id;
 ## Задача 6
 
 Создайте бэкап БД test_db и поместите его в volume, предназначенный для бэкапов (см. задачу 1).
+```
+pg_dump -U admin test_db > /media/postgresql/backup/test_db.backup
+```
 
 Остановите контейнер с PostgreSQL, но не удаляйте volumes.
+```
+docker ps -a
+docker stop c4289e3dc75d
+```
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-02-sql/sql/sql19.png)
 
 Поднимите новый пустой контейнер с PostgreSQL.
+Для этого не будем пользоваться compose файлом из задания 1, а выполним 
+```
+docker pull postgres
+```
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-02-sql/sql/sql20.png)
+
+```
+docker run --name my-pg -e POSTGRES_PASSWORD=admin -d postgres
+```
+
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-02-sql/sql/sql21.png)
+
 
 Восстановите БД test_db в новом контейнере.
 

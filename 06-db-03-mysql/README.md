@@ -74,9 +74,12 @@ docker ps -a
 ```
 ![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-03-mysql/mysql/mysql3.png)
 
+4. Скачиваем бэкап базы данных:
+```
+ wget https://github.com/netology-code/virt-homeworks/blob/virt-11/06-db-03-mysql/test_data/test_dump.sql
+```
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-03-mysql/mysql/mysql4.png)
 
-Изучите [бэкап БД](https://github.com/netology-code/virt-homeworks/tree/virt-11/06-db-03-mysql/test_data) и 
-восстановитесь из него.
 
 Перейдите в управляющую консоль `mysql` внутри контейнера.
 

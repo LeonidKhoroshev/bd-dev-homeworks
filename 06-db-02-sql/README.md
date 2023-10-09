@@ -277,19 +277,19 @@ join orders ON clients.заказ = orders.id;
 
 ## Задача 6
 
-Создайте бэкап БД test_db и поместите его в volume, предназначенный для бэкапов (см. задачу 1).
+1. Создайте бэкап БД test_db и поместите его в volume, предназначенный для бэкапов (см. задачу 1).
 ```
 pg_dump -U admin test_db > /media/postgresql/backup/test_db.backup
 ```
 
-Остановите контейнер с PostgreSQL, но не удаляйте volumes.
+2. Остановите контейнер с PostgreSQL, но не удаляйте volumes.
 ```
 docker ps -a
 docker stop c4289e3dc75d
 ```
 ![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-02-sql/sql/sql19.png)
 
-Поднимите новый пустой контейнер с PostgreSQL.
+3. Поднимите новый пустой контейнер с PostgreSQL.
 Для этого не будем пользоваться compose файлом из задания 1, а выполним 
 ```
 docker pull postgres
@@ -303,15 +303,31 @@ docker run --name my-pg -e POSTGRES_PASSWORD=admin -d postgres
 ![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-02-sql/sql/sql21.png)
 
 
-Восстановите БД test_db в новом контейнере.
+4. Восстановите БД test_db в новом контейнере.
+Для этого мы коопируем наш бэкап из старого контейнера (psql) в новый (my-pg)
+```
+docker cp psql://media/postgresql/backup/test_db.backup backup
+docker cp backup my-pg:/home/
+```
 
-Приведите список операций, который вы применяли для бэкапа данных и восстановления. 
+Далее входим в новый контейнер и в нашу базу данных через бэкап.
+```
+docker exec -it f51cd6609d85 bash
+psql -U postgres -f /home/backup/
+```
+Выполняем проверку:
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-02-sql/sql/sql22.png)
 
----
+База данных с названием test_db отсутствует, нот есть template0.
 
-### Как cдавать задание
+Проверяем, что это:
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-02-sql/sql/sql23.png)
 
-Выполненное домашнее задание пришлите ссылкой на .md-файл в вашем репозитории.
+Название таблиц совпадает с test_db.
 
----
+Проверяем данные таблиц:
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-02-sql/sql/sql24.png)
+
+Бэкап прошел успешно.
+
 

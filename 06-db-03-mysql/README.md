@@ -14,7 +14,7 @@ systemctl start docker.service
 systemctl enable docker.service
 systemctl status docker
 ```
-
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-03-mysql/mysql/mysql1.png)
 
 ## Задача 1
 

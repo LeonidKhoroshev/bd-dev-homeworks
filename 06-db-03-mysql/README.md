@@ -4,7 +4,13 @@
 
 Домашнее задание выполнено на виртуальной машине Centos7, развернутой в VirtualBox.
 
-1. Установка docker
+1.Создание директории для выполнения домашнего задания:
+```
+mkdir mysql_homework
+cd mysql_homework
+```
+
+2. Установка docker:
 ```
 su root
 yum update -y && sudo dnf upgrade -y
@@ -16,9 +22,58 @@ systemctl status docker
 ```
 ![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-03-mysql/mysql/mysql1.png)
 
+3. Установка docker-compose:
+```
+curl -L "https://github.com/docker/compose/releases/download/v2.22.0/docker-compose-linux-x86_64" -o /usr/local/bin/docker-compose
+chmod +x /usr/local/bin/docker-compose
+ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+docker-compose -v
+```
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-03-mysql/mysql/mysql2.png)
+
+
+
 ## Задача 1
 
 Используя Docker, поднимите инстанс MySQL (версию 8). Данные БД сохраните в volume.
+1. Создаем файл docker-compose.yml:
+```
+nano docker-compose.yml
+```
+
+```
+version: '3.8'
+
+volumes:
+  data: {}
+  backup: {}
+
+services:
+  mysql-server-80:
+      image: mysql/mysql-server:8.0
+      container_name: mysql
+      ports:
+        - "3308:3306"
+      volumes:
+        - data:/var/lib/mysql/data
+        - backup:/media/mysql/backup
+      environment:
+        MYSQL_USER: "admin"
+        MYSQL_PASSWORD: "admin"
+```
+
+2. Проверяем корректность конфигурации:
+```
+docker-compose -f docker-compose.yml config
+```
+
+3. Запускаем контейнер и проверяем результат:
+```
+docker-compose up -d
+docker ps -a
+```
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-03-mysql/mysql/mysql3.png)
+
 
 Изучите [бэкап БД](https://github.com/netology-code/virt-homeworks/tree/virt-11/06-db-03-mysql/test_data) и 
 восстановитесь из него.

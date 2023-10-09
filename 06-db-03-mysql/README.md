@@ -80,6 +80,7 @@ docker ps -a
 ```
 ![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-03-mysql/mysql/mysql4.png)
 
+5. Восстанавливаемся из `test_dump.sql`
 
 Перейдите в управляющую консоль `mysql` внутри контейнера.
 

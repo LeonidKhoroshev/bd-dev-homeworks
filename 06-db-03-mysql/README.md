@@ -80,7 +80,15 @@ docker ps -a
 ```
 ![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-03-mysql/mysql/mysql4.png)
 
-5. Восстанавливаемся из `test_dump.sql`
+5. Копируем бэкап `test_dump.sql` в созданный контейнер docker:
+```
+docker cp test_dump.sql mysql:/diff/media/mysql/backup
+```
+
+6. Создаем базу данный в контейнере:
+```
+
+```
 
 Перейдите в управляющую консоль `mysql` внутри контейнера.
 

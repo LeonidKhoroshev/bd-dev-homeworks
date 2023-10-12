@@ -55,8 +55,7 @@ services:
       ports:
         - "3308:3306"
       volumes:
-        - data:/var/lib/mysql/data
-        - backup:/media/mysql/backup
+        - ./docker-entrypoint-initdb.d/:/docker-entrypoint-initdb.d/
       environment:
         MYSQL_USER: "admin"
         MYSQL_PASSWORD: "admin"
@@ -82,13 +81,22 @@ docker ps -a
 
 5. Копируем бэкап `test_dump.sql` в созданный контейнер docker:
 ```
-docker cp test_dump.sql mysql:/diff/media/mysql/backup
+docker exec -it dd1f4a465695 bash
+mkdir etc/mysql
+exit
+docker cp test_dump.sql mysql://etc/mysql/backup
 ```
 
 6. Создаем базу данный в контейнере:
 ```
-
+docker exec -it dd1f4a465695 bash
+mysql -u root -p 
+CREATE DATABASE test_db;
+exit
 ```
+
+7. 
+
 
 Перейдите в управляющую консоль `mysql` внутри контейнера.
 

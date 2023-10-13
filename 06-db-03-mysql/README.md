@@ -97,21 +97,29 @@ exit
 
 7. Восстанавливаем дамп базы данных:
 ```
-
+mysql -u root -p test_db < etc/mysql/backup
+mysql -u root -p
 ```
+```sql
+show databases;
+use test_db;
+show tables;
+```
+Дамп восстановлен успешно:
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-03-mysql/mysql/mysql5.png)
 
+8. Используя команду `\h`, получите список управляющих команд:
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-03-mysql/mysql/mysql6.png)
 
-Перейдите в управляющую консоль `mysql` внутри контейнера.
+9. Найдите команду для выдачи статуса БД и **приведите в ответе** из её вывода версию сервера БД:
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-03-mysql/mysql/mysql7.png)
 
-Используя команду `\h`, получите список управляющих команд.
+10. **Приведите в ответе** количество записей с `price` > 300:
+```sql
+select price from orders where price > 300;
+```
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-03-mysql/mysql/mysql8.png)
 
-Найдите команду для выдачи статуса БД и **приведите в ответе** из её вывода версию сервера БД.
-
-Подключитесь к восстановленной БД и получите список таблиц из этой БД.
-
-**Приведите в ответе** количество записей с `price` > 300.
-
-В следующих заданиях мы будем продолжать работу с этим контейнером.
 
 ## Задача 2
 

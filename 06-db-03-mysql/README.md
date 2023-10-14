@@ -123,7 +123,7 @@ select price from orders where price > 300;
 
 ## Задача 2
 
-1. Создайте пользователя test в БД c паролем test-pass, используя:
+1. Создаем пользователя `test` в БД c паролем test-pass, используя:
 
 - плагин авторизации mysql_native_password:
 ```sql
@@ -148,7 +148,7 @@ alter user 'test'@'localhost' with max_queries_per_hour 100;
 alter user 'test'@'localhost' attribute '{"fname":"James", "lname":"Pretty"}';
 ```
 
-2. Предоставьте привелегии пользователю `test` на операции SELECT базы `test_db`:
+2. Предоставляем привелегии пользователю `test` на операции SELECT базы `test_db`:
 
 ```sql
 grant select on test_db.* to 'test'@'localhost';
@@ -156,7 +156,7 @@ show grants for 'test'@'localhost';
 ```
 ![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-03-mysql/mysql/mysql9.png)
 
-3. Используя таблицу INFORMATION_SCHEMA.USER_ATTRIBUTES, получите данные по пользователю `test`:
+3. Используя таблицу INFORMATION_SCHEMA.USER_ATTRIBUTES, получаем данные по пользователю `test`:
 ```sql
 select * from information_schema.user_attributes where user = 'test';
 ```
@@ -164,12 +164,24 @@ select * from information_schema.user_attributes where user = 'test';
 
 ## Задача 3
 
-Установите профилирование `SET profiling = 1`.
-Изучите вывод профилирования команд `SHOW PROFILES;`.
+1. Устанавливаем профилирование `SET profiling = 1` (имеется ввиду, что для управления профилированием должна использоваться переменная сеанса profiling, значение которой по умолчанию равно 0 (OFF), для включения профилирования необходимо установить значение переменной profiling  1 (ON):
+```sql
+set profiling = 1
+```
+2. Изучаем вывод профилирования команд `SHOW PROFILES;`:
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-03-mysql/mysql/mysql11.png)
+В представленной выше таблице содержится информация о скорости выполнения различных запросов, так проанализируем самые простые и популярные запросы относительно их быстродействия:
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-03-mysql/mysql/mysql12.png)
+Поскольку наша база данных практически пуста, все запросы выполняются почти мгновенно. Почему-то замый долгий (относительно конечно) был вывод всех таблиц БД `show tables`, а вот вывод данных из таблицы `select * from orders` занал практически в 1,5 раза меньшек времени. 
 
-Исследуйте, какой `engine` используется в таблице БД `test_db` и **приведите в ответе**.
+3. Исследуем, какой `engine` используется в таблице БД `test_db`:
+```sql
+show table status;
+```
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-03-mysql/mysql/mysql13.png)
+Поскольку у нас одна таблица, то вариантов формирования запроса не так много. Из представленной информации фидно, что в нашем случае используется InnoDB.
 
-Измените `engine` и **приведите время выполнения и запрос на изменения из профайлера в ответе**:
+Изменим `engine` и **приведем время выполнения и запрос на изменения из профайлера в ответе**:
 - на `MyISAM`,
 - на `InnoDB`.
 

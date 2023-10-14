@@ -123,20 +123,44 @@ select price from orders where price > 300;
 
 ## Задача 2
 
-Создайте пользователя test в БД c паролем test-pass, используя:
+1. Создайте пользователя test в БД c паролем test-pass, используя:
 
-- плагин авторизации mysql_native_password
-- срок истечения пароля — 180 дней 
-- количество попыток авторизации — 3 
-- максимальное количество запросов в час — 100
+- плагин авторизации mysql_native_password:
+```sql
+create user 'test'@'localhost' identified by 'test-pass':
+```
+- срок истечения пароля — 180 дней:
+```sql
+alter user 'test'@'localhost' password expire interval 180 day;
+```
+- количество попыток авторизации — 3 (при некорректном вводе пароля 3 раза подряд учетная запись пользователя `test` блокируется на 1 день):
+```sql
+alter user 'test'@'localhost' failed_login_attempts 3 password_lock_time 1;
+```
+- максимальное количество запросов в час — 100:
+```sql
+alter user 'test'@'localhost' with max_queries_per_hour 100;
+```
 - аттрибуты пользователя:
-    - Фамилия "Pretty"
+    - Фамилия "Pretty";
     - Имя "James".
+```sql
+alter user 'test'@'localhost' attribute '{"fname":"James", "lname":"Pretty"}';
+```
 
-Предоставьте привелегии пользователю `test` на операции SELECT базы `test_db`.
-    
-Используя таблицу INFORMATION_SCHEMA.USER_ATTRIBUTES, получите данные по пользователю `test` и 
-**приведите в ответе к задаче**.
+2. Предоставьте привелегии пользователю `test` на операции SELECT базы `test_db`:
+
+```sql
+grant select on test_db.* to 'test'@'localhost';
+show grants for 'test'@'localhost';
+```
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-03-mysql/mysql/mysql9.png)
+
+3. Используя таблицу INFORMATION_SCHEMA.USER_ATTRIBUTES, получите данные по пользователю `test`:
+```sql
+select * from information_schema.user_attributes where user = 'test';
+```
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-03-mysql/mysql/mysql10.png)
 
 ## Задача 3
 

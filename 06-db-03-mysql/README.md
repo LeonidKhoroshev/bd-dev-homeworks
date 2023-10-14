@@ -181,9 +181,24 @@ show table status;
 ![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-03-mysql/mysql/mysql13.png)
 Поскольку у нас одна таблица, то вариантов формирования запроса не так много. Из представленной информации фидно, что в нашем случае используется InnoDB.
 
-Изменим `engine` и **приведем время выполнения и запрос на изменения из профайлера в ответе**:
-- на `MyISAM`,
-- на `InnoDB`.
+Изменим `engine` и **приведем время выполнения и запрос на изменения из профайлера в ответе** (видимо имеется ввиду запрос `select price from orders where price > 300`):
+- на `MyISAM`:
+```sql
+alter table orders engine = MyISAM;
+select price from orders where price > 300;
+show profiles;
+```
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-03-mysql/mysql/mysql13.png)
+Время выполнения запроса - 0.0008 секунды.
+
+- на `InnoDB`;
+```sql
+alter table orders engine = InnoDB;
+select price from orders where price > 300;
+show profiles;
+```
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-03-mysql/mysql/mysql14.png)
+Время выполнения запроса - 0.0006 секунды.
 
 ## Задача 4 
 

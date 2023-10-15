@@ -81,19 +81,19 @@ psql -h 127.0.0.1 -U admin
 ```sql
 \l
 ```
-![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-04-postgresql/postgres/pgsql4.png)
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-04-postgresql/postgres/psql4.png)
 
 - подключения к БД,
 ```sql
 \c postgres
 ```
-![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-04-postgresql/postgres/pgsql5.png)
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-04-postgresql/postgres/psql5.png)
 
 - вывода списка таблиц,
 ```
 \dt
 ```
-![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-04-postgresql/postgres/pgsql6.png)
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-04-postgresql/postgres/psql6.png)
 Поскольку в базе данных отсутствуют таблицы, вывод пустой.
 
 - вывода описания содержимого таблиц,

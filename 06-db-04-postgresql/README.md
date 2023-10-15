@@ -9,7 +9,6 @@
 mkdir pgqsl_homework
 cd pgqsl_homework
 ```
-![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-03-mysql/mysql/mysql1.png)
 
 2. Установка docker
 ```
@@ -21,6 +20,7 @@ systemctl start docker.service
 systemctl enable docker.service
 systemctl status docker
 ```
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-04-postgresql/postgres/pgsql1.png)
 
 3. Установка docker-compose
 ```
@@ -29,6 +29,7 @@ chmod +x /usr/local/bin/docker-compose
 ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 docker-compose -v
 ```
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-04-postgresql/postgres/pgsql2.png)
 
 ## Задача 1
 
@@ -64,18 +65,47 @@ services:
 docker-compose up -d
 docker ps -a
 ```
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-04-postgresql/postgres/pgsql3.png)
 
 Подключитесь к БД PostgreSQL, используя `psql`.
+```
+docker exec -it 61b71ecf21d4 bash
+psql -h 127.0.0.1 -U admin
+```
 
 Воспользуйтесь командой `\?` для вывода подсказки по имеющимся в `psql` управляющим командам.
 
 **Найдите и приведите** управляющие команды для:
 
 - вывода списка БД,
+```sql
+\l
+```
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-04-postgresql/postgres/pgsql4.png)
+
 - подключения к БД,
+```sql
+\c postgres
+```
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-04-postgresql/postgres/pgsql5.png)
+
 - вывода списка таблиц,
+```
+\dt
+```
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-04-postgresql/postgres/pgsql6.png)
+Поскольку в базе данных отсутствуют таблицы, вывод пустой.
+
 - вывода описания содержимого таблиц,
+```sql
+show * from table_name;
+```
+вместо table_name указываем название интересующей таблицы.
+
 - выхода из psql.
+```sql
+\q
+```  
 
 ## Задача 2
 

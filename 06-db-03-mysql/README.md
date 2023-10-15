@@ -224,7 +224,7 @@ innodb_log_buffer_size = 1M
 ```
 
 - буффер кеширования 30% от ОЗУ (чтбоы правильно настроить параметр innodb_buffer_pool_size, требуется узнать одщий объем ОЗУ, выходим из режима редактирования файла и смотрим вывод команды `free -h`);
-![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-03-mysql/mysql/mysql14.png)
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-03-mysql/mysql/mysql15.png)
 ```
 innodb_buffer_pool_size = 1,4G
 ```

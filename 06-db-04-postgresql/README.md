@@ -1,8 +1,69 @@
 # Домашнее задание к занятию 4. «PostgreSQL» - Хорошев Леонид
 
+## Подготовка
+
+Домашнее задание выполнено на виртуальной машине Centos7, развернутой в VirtualBox.
+
+1.Создание директории для выполнения домашнего задания:
+```
+mkdir pgqsl_homework
+cd pgqsl_homework
+```
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-03-mysql/mysql/mysql1.png)
+
+2. Установка docker
+```
+su root
+yum update -y && sudo dnf upgrade -y
+yum-config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo
+yum install docker-ce docker-ce-cli containerd.io -y
+systemctl start docker.service
+systemctl enable docker.service
+systemctl status docker
+```
+
+3. Установка docker-compose
+```
+curl -L "https://github.com/docker/compose/releases/download/v2.22.0/docker-compose-linux-x86_64" -o /usr/local/bin/docker-compose
+chmod +x /usr/local/bin/docker-compose
+ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+docker-compose -v
+```
+
 ## Задача 1
 
 Используя Docker, поднимите инстанс PostgreSQL (версию 13). Данные БД сохраните в volume.
+```
+nano docker-compose.yml
+```
+
+1. Docker-compose-манифест.
+```
+version: '3.8'
+
+volumes:
+  data: {}
+  backup: {}
+
+services:
+  postgres:
+    image: postgres:13
+    container_name: psql
+    ports:
+      - "0.0.0.0:5432:5432"
+    volumes:
+      - data:/var/lib/postgresql/data
+      - backup:/media/postgresql/backup
+    environment:
+      POSTGRES_USER: "admin"
+      POSTGRES_PASSWORD: "admin"
+```
+
+2. Запуск docker-compose.yml
+```
+docker-compose up -d
+docker ps -a
+```
 
 Подключитесь к БД PostgreSQL, используя `psql`.
 

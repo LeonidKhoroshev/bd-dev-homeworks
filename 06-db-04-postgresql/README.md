@@ -110,19 +110,56 @@ show * from table_name;
 ## Задача 2
 
 Используя `psql`, создайте БД `test_database`.
+```sql
+create database test_database;
+\q
+```
 
 Изучите [бэкап БД](https://github.com/netology-code/virt-homeworks/tree/virt-11/06-db-04-postgresql/test_data).
 
+1. Скачиваем дамп базы данных:
+```
+wget https://github.com/netology-code/virt-homeworks/blob/virt-11/06-db-04-postgresql/test_data/test_dump.sql
+```
+
+2. Копируем дамп базы данных в контейнер:
+```
+docker cp test_dump.sql psql://backup
+```
+
 Восстановите бэкап БД в `test_database`.
+```
+docker exec -it 61b71ecf21d4 bash
+psql -U admin test_database < backup
+```
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-04-postgresql/postgres/psql7.png)
 
 Перейдите в управляющую консоль `psql` внутри контейнера.
+```
+psql -U admin -d test_database
+\dt
+```
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-04-postgresql/postgres/psql8.png)
 
 Подключитесь к восстановленной БД и проведите операцию ANALYZE для сбора статистики по таблице.
+```sql
+analyze verbose public.orders;
+```
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-04-postgresql/postgres/psql9.png)
 
 Используя таблицу [pg_stats](https://postgrespro.ru/docs/postgresql/12/view-pg-stats), найдите столбец таблицы `orders` 
 с наибольшим средним значением размера элементов в байтах.
+```sql
+select avg_width from pg_stats where tablename='orders';
+```
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-04-postgresql/postgres/psql10.png)
+По выводу команды получается, что наибольшее среднее значение размера элементов в байтах во втором столбце. Посмотрим, почему:
 
-**Приведите в ответе** команду, которую вы использовали для вычисления, и полученный результат.
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-04-postgresql/postgres/psql11.png)
+
+Во втором столбце приведены название товара.
+
+
 
 ## Задача 3
 

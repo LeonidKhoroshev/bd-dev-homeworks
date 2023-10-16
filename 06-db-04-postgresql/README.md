@@ -258,14 +258,14 @@ price bigint not null);
 ```
 ```sql
 
-Также можно добавить данный индекс в существующие таблицы:
-```sql
-alter table orders_1 add  constraint constraintname uniqe (title);
-alter table orders_2 add  constraint constraintname uniqe (title);
-```
-
 create table orders_2 (
 id bigint not null,
 title text not null, unique,
 price bigint not null);
+```
+
+Также можно добавить данный индекс в существующие таблицы:
+```sql
+alter table orders_1 add  constraint constraintname unique (title);
+alter table orders_2 add  constraint constraintname unique (title);
 ```

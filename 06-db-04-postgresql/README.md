@@ -167,21 +167,98 @@ select avg_width from pg_stats where tablename='orders';
 поиск по ней занимает долгое время. Вам как успешному выпускнику курсов DevOps в Нетологии предложили
 провести разбиение таблицы на 2: шардировать на orders_1 - price>499 и orders_2 - price<=499.
 
-Предложите SQL-транзакцию для проведения этой операции.
+1. Создаем 2 таблицы - orders_1 и orders_2:
+```sql
+create table orders_1 (
+id bigint not null,
+title text not null,
+price bigint not null);
+```
+
+```
+create table orders_2 (
+id bigint not null,
+title text not null,
+price bigint not null);
+```
+
+2. Наполняем их данными, исходя из условий задания - поместим заказы с ценой более 499 в первую таблицу, а заказы сос тоимостью менее, либо равной 499 - во вторую:
+
+```sql
+insert into orders_1
+select * from orders
+where price > 499;
+```
+
+```sql
+insert into orders_2
+select * from orders
+where price <= 499;
+```
+
+3. Проверяем, что разбиение прошло корректно:
+
+```sql
+select * from orders_1;
+select * from orders_2;
+```
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-04-postgresql/postgres/psql12.png)
+
+Поскольку данных крайне мало, можно проверить, что наши данные нигде не потерялись:
+```sql
+select * from orders;
+```
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-04-postgresql/postgres/psql13.png)
+
+Все прошло успешно, но при наличии больших объемов данных такая проверка - излишне.
+
+4. Удаляем таблицу orders, чтобы исключить дублирование данных:
+
+```sql
+drop table orders;
+```
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-04-postgresql/postgres/psql14.png)
+
+
 
 Можно ли было изначально исключить ручное разбиение при проектировании таблицы orders?
+
+Ручное разбиение возможно исключить создав правила записи данных в таблицы orders_1 и orders_2, более того, с учетом удаления исходной таблицы orders, так сделать необходимо:
+
+```sql
+create rule orders_1 as on insert to orders_1 where ( price > 499 ) do instead insert into orders_1 values (new.*);
+create rule orders_2 as on insert to orders_2 where ( price <= 499 ) do instead insert into orders_2 values (new.*);
+```
 
 ## Задача 4
 
 Используя утилиту `pg_dump`, создайте бекап БД `test_database`.
 
+```
+export PGPASSWORD=admin && pg_dump -U admin test_database > /tmp/test_database_backup.sql
+```
+
+Пароль и пользователь использованы те же, что и при создании контейнера.
+
+Проверяем, что бекап создан успешно:
+```
+ls /tmp
+cat /tmp/test_database_backup.sql
+```
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-04-postgresql/postgres/psql15.png)
+
 Как бы вы доработали бэкап-файл, чтобы добавить уникальность значения столбца `title` для таблиц `test_database`?
 
----
-
-### Как cдавать задание
-
-Выполненное домашнее задание пришлите ссылкой на .md-файл в вашем репозитории.
-
----
-
+Для доработки базы данных в соответствии с заданием, на этапе создания таблиц orders_1 и orders_2 необходимо было добаить индекс unique:
+```sql
+create table orders_1 (
+id bigint not null,
+title text not null, unique,
+price bigint not null);
+```
+```sql
+create table orders_2 (
+id bigint not null,
+title text not null, unique,
+price bigint not null);
+```

@@ -13,14 +13,21 @@ cd elastic_homework
 2. Регистрируемся на [dockerhub](https://hub.docker.com/) 
 ![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-05-elasticsearch/elk/elk1.png)
 
-
+3. Авторизуемся под созданной на dockerhub учетной записью.
+```
+docker login --username leonid1984
+```
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-05-elasticsearch/elk/elk3.png)
 
 ## Задача 1
 
 Используя Docker-образ [centos:7](https://hub.docker.com/_/centos) как базовый и 
 [документацию по установке и запуску Elastcisearch](https://www.elastic.co/guide/en/elasticsearch/reference/current/targz.html):
 
-- составьте Dockerfile-манифест для Elasticsearch,
+- составьте Dockerfile-манифест для Elasticsearch;
+```
+
+```
 - соберите Docker-образ и сделайте `push` в ваш docker.io-репозиторий,
 - запустите контейнер из получившегося образа и выполните запрос пути `/` c хост-машины.
 

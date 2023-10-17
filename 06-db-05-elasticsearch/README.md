@@ -17,7 +17,7 @@ cd elastic_homework
 ```
 docker login --username leonid1984
 ```
-![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-05-elasticsearch/elk/elk3.png)
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-05-elasticsearch/elk/elk2.png)
 
 ## Задача 1
 

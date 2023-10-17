@@ -10,17 +10,12 @@ mkdir elastic_homework
 cd elastic_homework
 ```
 
-2. Регистрируемся на dockerhub
+2. Регистрируемся на [dockerhub](https://hub.docker.com/) 
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-05-elasticsearch/elk/elk1.png)
 
 
 
 ## Задача 1
-
-В этом задании вы потренируетесь в:
-
-- установке Elasticsearch,
-- первоначальном конфигурировании Elasticsearch,
-- запуске Elasticsearch в Docker.
 
 Используя Docker-образ [centos:7](https://hub.docker.com/_/centos) как базовый и 
 [документацию по установке и запуску Elastcisearch](https://www.elastic.co/guide/en/elasticsearch/reference/current/targz.html):

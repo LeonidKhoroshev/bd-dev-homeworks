@@ -2,7 +2,7 @@
 
 ## Подготовка к выполнению домашнего задания
 
-Домашнее задание выполнено на виртуальной машине Centos7, развернутой в VirtualBox. На данной виртуальной машине уже установлен docker, docker-compose и выполнен ряд домашних заданий (подробнее про установку docker: https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-04-postgresql/README.md).
+Домашнее задание выполнено на виртуальной машине Centos7, развернутой в VirtualBox. На данной виртуальной машине уже установлен [docker, docker-compose](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-04-postgresql/README.md) и выполнен ряд домашних заданий.
 
 1. Создаем директорию для выполнения домашнего задания:
 ```

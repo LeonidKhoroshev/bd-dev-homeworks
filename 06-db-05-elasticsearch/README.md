@@ -26,8 +26,45 @@ docker login --username leonid1984
 
 - составьте Dockerfile-манифест для Elasticsearch;
 ```
+nano Dockerfile
+```
+При составлении Dockerfile-манифеста возник ряд сложностей, связанных с невозможностью использования официального репозитория Elasticsearch, поэтому был использован сторонний репозиторий, найденный в открытом доступе. Он может работать нестабильно, но при выполнении задания сбоев не зафиксировано.
+```
+FROM centos:7
+
+LABEL maintainer = khoroshevlv@gmail.com
+
+ENV TZ=Europe/Moscow
+RUN adduser elasticsearch
+
+RUN yum install wget  perl-Digest-SHA  -y
+RUN wget --no-check-certificate https://sourceforge.net/projects/elasticsearch.mirror/files/v8.10.4/Elasticsearch%208.10.4%20source%20code.tar.gz/download
+RUN tar -xzf download
+RUN cd elastic-elasticsearch-8d0aed9/
+
+COPY elasticsearch.yml /elastic-elasticsearch-8d0aed9/config/
+
+RUN chown -R elasticsearch /elastic-elasticsearch-8d0aed9/
+RUN mkdir /var/lib/elasticsearch/
+RUN chown -R elasticsearch /var/lib/elasticsearch/
+
+EXPOSE 9200
+
+CMD /elasticsearch-8.10.4/bin/elasticsearch
+```
+Создаем elasticsearch.yml
+```
+nano elasticsearch.yml
+```
 
 ```
+node.name: "netology_test"
+cluster.name: my_cluster
+node.roles: [ master ]
+path.data: /var/lib/elasticsearch
+
+```
+
 - соберите Docker-образ и сделайте `push` в ваш docker.io-репозиторий,
 - запустите контейнер из получившегося образа и выполните запрос пути `/` c хост-машины.
 

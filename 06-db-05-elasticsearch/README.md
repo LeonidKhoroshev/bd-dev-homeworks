@@ -66,6 +66,14 @@ path.data: /var/lib/elasticsearch
 ```
 
 - соберите Docker-образ и сделайте `push` в ваш docker.io-репозиторий,
+```
+docker build -t khoroshev/elastic8 .
+```
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-05-elasticsearch/elk/elk3.png)
+
+```
+docker push khoroshev/elastic8
+```
 - запустите контейнер из получившегося образа и выполните запрос пути `/` c хост-машины.
 
 Требования к `elasticsearch.yml`:

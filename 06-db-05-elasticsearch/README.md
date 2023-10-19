@@ -53,7 +53,8 @@ RUN chown -R elasticsearch /var/lib/elasticsearch/
 
 EXPOSE 9200
 
-CMD /elasticsearch-8.10.4/bin/elasticsearch
+CMD /elastic-elasticsearch-8d0aed9/bin/distribution/src/bin/elasticsearch
+
 ```
 Создаем elasticsearch.yml
 ```

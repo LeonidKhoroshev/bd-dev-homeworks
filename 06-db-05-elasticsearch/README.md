@@ -40,6 +40,9 @@ RUN adduser elasticsearch
 RUN yum install wget  perl-Digest-SHA  -y
 RUN wget --no-check-certificate https://sourceforge.net/projects/elasticsearch.mirror/files/v8.10.4/Elasticsearch%208.10.4%20source%20code.tar.gz/download
 RUN tar -xzf download
+RUN rm -f download
+RUN yum -y remove wget
+RUN yum clean all
 RUN cd elastic-elasticsearch-8d0aed9/
 
 COPY elasticsearch.yml /elastic-elasticsearch-8d0aed9/config/

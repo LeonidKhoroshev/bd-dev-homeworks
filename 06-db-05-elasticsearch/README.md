@@ -39,7 +39,7 @@ nano Dockerfile
 - скачанный архив залит на гугл [диск](https://drive.google.com/u/0/uc?id=1IgmcX3iJ-6JzAv5losWl3h_GmA1VkLKw&export=download&confirm=t&uuid=16e1a298-f7d3-4191-b6bc-e3eb4c0440a0&at=AB6BwCA57MoT-65WZGx5-F5TKEtc:1697961303399), ссылку тоже оставляю здесь, доступ к архиву открыл, если у других студентов будут вопросы, можно смело делиться. 
 
 В результате получился следующий Dockerfile-манифест
-``
+```
 FROM centos:7
 
 LABEL maintainer = khoroshevlv@gmail.com

@@ -28,8 +28,18 @@ docker login --username leonid1984
 ```
 nano Dockerfile
 ```
-При составлении Dockerfile-манифеста возник ряд сложностей, связанных с невозможностью использования официального репозитория Elasticsearch, поэтому был использован сторонний репозиторий, найденный в открытом доступе. Он может работать нестабильно, но при выполнении задания сбоев не зафиксировано.
-```
+При составлении Dockerfile-манифеста возник ряд сложностей, связанных с невозможностью использования официального репозитория Elasticsearch, поиск сторонних репозиториев также успехов не принес, либо там была нерабочая версия, либо я некорректно настроил конфигурацию, на всякий случай ссылку на репозиторий оставлю [тут](https://sourceforge.net/projects/elasticsearch.mirror/files/v8.10.4/).
+
+Использование яндекс зеркала, счел "неспортивным", так как оно располагает только deb версией (по условиям задание требуется rpm), хотя судя по комментария м к домашнему заданию такой вариант решения также принимается к проверке.
+
+В результате предприняты следующие действия:
+- на хостовой ОС Windows 10 поднят [OpenVPN](https://teletype.in/@vpntype/for-windows)
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-05-elasticsearch/elk/elk6.png)
+- c официального репозитория скачан [Elasticsearch](https://www.elastic.co/downloads/enterprise-search) версии 8.10.4 под rpm линейку
+- скачанный архив залит на гугл [диск](https://drive.google.com/u/0/uc?id=1IgmcX3iJ-6JzAv5losWl3h_GmA1VkLKw&export=download&confirm=t&uuid=16e1a298-f7d3-4191-b6bc-e3eb4c0440a0&at=AB6BwCA57MoT-65WZGx5-F5TKEtc:1697961303399), ссылку тоже оставляю здесь, доступ к архиву открыл, если у других студентов будут вопросы, можно смело делиться. 
+
+В результате получился следующий Dockerfile-манифест
+``
 FROM centos:7
 
 LABEL maintainer = khoroshevlv@gmail.com
@@ -38,7 +48,7 @@ ENV TZ=Europe/Moscow
 RUN adduser elasticsearch
 
 RUN yum install wget  perl-Digest-SHA  -y
-RUN wget --no-check-certificate https://sourceforge.net/projects/elasticsearch.mirror/files/v8.10.4/Elasticsearch%208.10.4%20source%20code.tar.gz/download
+RUN wget --no-check-certificate [https://sourceforge.net/projects/elasticsearch.mirror/files/v8.10.4/](https://sourceforge.net/projects/elasticsearch.mirror/files/v8.10.4/)Elasticsearch%208.10.4%20source%20code.tar.gz/download
 RUN tar -xzf download
 RUN rm -f download
 RUN yum -y remove wget

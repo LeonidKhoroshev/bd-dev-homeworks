@@ -41,30 +41,23 @@ nano Dockerfile
 В результате получился следующий Dockerfile-манифест
 ```
 FROM centos:7
-
+EXPOSE 9200
 LABEL maintainer = khoroshevlv@gmail.com
-
 ENV TZ=Europe/Moscow
-RUN adduser elasticsearch
-
-RUN yum install wget  perl-Digest-SHA  -y
-RUN wget --no-check-certificate [https://sourceforge.net/projects/elasticsearch.mirror/files/v8.10.4/](https://sourceforge.net/projects/elasticsearch.mirror/files/v8.10.4/)Elasticsearch%208.10.4%20source%20code.tar.gz/download
-RUN tar -xzf download
-RUN rm -f download
+ENV ES_HOME="/var/lib/elasticsearch"
+WORKDIR ${ES_HOME}
+USER 0
+RUN export ES_HOME="/var/lib/elasticsearch"
+RUN yum install wget perl-Digest-SHA -y
+RUN wget -O elasticsearch-8.10.4 "https://drive.google.com/u/0/uc?id=1IgmcX3iJ-6JzAv5losWl3h_GmA1VkLKw&export=download&confirm=t&uuid=16e1a298-f7d3-4191-b6bc-e3eb4c0440a0&at=AB6BwCA57MoT-6$
+RUN tar -xzf elasticsearch-8.10.4
+RUN useradd -m -u 1000 elasticsearch
+RUN chown elasticsearch:elasticsearch -R ${ES_HOME}
 RUN yum -y remove wget
 RUN yum clean all
-RUN cd elastic-elasticsearch-8d0aed9/
-
-COPY elasticsearch.yml /elastic-elasticsearch-8d0aed9/config/
-
-RUN chown -R elasticsearch /elastic-elasticsearch-8d0aed9/
-RUN mkdir /var/lib/elasticsearch/
-RUN chown -R elasticsearch /var/lib/elasticsearch/
-
-EXPOSE 9200
-
-CMD /elastic-elasticsearch-8d0aed9/distribution/src/bin/elasticsearch
-
+COPY elasticsearch.yml /var/lib/elasticsearch/config/
+CMD ["sh", "-c", "/var/lib/elasticsearch/elasticsearch-8.10.4/bin/elasticsearch"]
+USER 1000
 ```
 Создаем elasticsearch.yml
 ```
@@ -95,26 +88,15 @@ docker push leonid1984/elasticsearch8
 ```
 docker run -d -p 9200:9200 leonid1984/elasticsearch8
 ```
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-05-elasticsearch/elk/elk7.png)
 
-Требования к `elasticsearch.yml`:
+Небольшой комментарий - сборка и запуск контейнера прошла далеко не с первого раза, поэтому каждаю новая команда в dockerfile начинается на RUN, правильнее с точки зрения оптимизации наверное использовать && в конце строки, но приведенная выше конфигурация позволяет быстрее выполнить поиск ошибок в dockerfile и их исправление.
 
-- данные `path` должны сохраняться в `/var/lib`,
-- имя ноды должно быть `netology_test`.
+```
+curl -X GET "localhost:9200/?pretty"
+```
 
-В ответе приведите:
 
-- текст Dockerfile-манифеста,
-- ссылку на образ в репозитории dockerhub,
-- ответ `Elasticsearch` на запрос пути `/` в json-виде.
-
-Подсказки:
-
-- возможно, вам понадобится установка пакета perl-Digest-SHA для корректной работы пакета shasum,
-- при сетевых проблемах внимательно изучите кластерные и сетевые настройки в elasticsearch.yml,
-- при некоторых проблемах вам поможет Docker-директива ulimit,
-- Elasticsearch в логах обычно описывает проблему и пути её решения.
-
-Далее мы будем работать с этим экземпляром Elasticsearch.
 
 ## Задача 2
 

@@ -55,7 +55,8 @@ RUN useradd -m -u 1000 elasticsearch
 RUN chown elasticsearch:elasticsearch -R ${ES_HOME}
 RUN yum -y remove wget
 RUN yum clean all
-COPY elasticsearch.yml /var/lib/elasticsearch/config/
+COPY elasticsearch.yml /var/lib/elasticsearch/elasticsearch-8.10.4/config/elasticsearch.yml
+
 CMD ["sh", "-c", "/var/lib/elasticsearch/elasticsearch-8.10.4/bin/elasticsearch"]
 USER 1000
 ```
@@ -63,13 +64,14 @@ USER 1000
 ```
 nano elasticsearch.yml
 ```
-
 ```
-node.name: "netology_test"
-cluster.name: my_cluster
-node.roles: [ master ]
+network.host: 0.0.0.0
 path.data: /var/lib/elasticsearch
-
+http.port: 9200
+discovery.type: single-node
+node.name: netology_test
+xpack.security.enabled: false
+xpack.security.enrollment.enabled: false
 ```
 
 - соберите Docker-образ и сделайте `push` в ваш docker.io-репозиторий,
@@ -95,16 +97,10 @@ docker run -d -p 9200:9200 leonid1984/elasticsearch8
 ```
 curl -X GET "localhost:9200/?pretty"
 ```
-
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-05-elasticsearch/elk/elk8.png)
 
 
 ## Задача 2
-
-В этом задании вы научитесь:
-
-- создавать и удалять индексы,
-- изучать состояние кластера,
-- обосновывать причину деградации доступности данных.
 
 Ознакомьтесь с [документацией](https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-create-index.html) 
 и добавьте в `Elasticsearch` 3 индекса в соответствии с таблицей:
@@ -115,13 +111,80 @@ curl -X GET "localhost:9200/?pretty"
 | ind-2 | 1 | 2 |
 | ind-3 | 2 | 4 |
 
+Индекс 1:
+```
+curl -X PUT "localhost:9200/ind-1?pretty" -H 'Content-Type: application/json' -d'
+ {
+   "settings": {
+     "number_of_shards": 1,
+     "number_of_replicas": 0
+   }
+ }
+ '
+```
+
+Индекс2:
+```
+curl -X PUT "localhost:9200/ind-2?pretty" -H 'Content-Type: application/json' -d'
+ {
+   "settings": {
+     "number_of_shards": 2,
+     "number_of_replicas": 1
+   }
+ }
+ '
+```
+
+Индекс3:
+```
+curl -X PUT "localhost:9200/ind-3?pretty" -H 'Content-Type: application/json' -d'
+ {
+   "settings": {
+     "number_of_shards": 4,
+     "number_of_replicas": 2
+   }
+ }
+ '
+```
+
 Получите список индексов и их статусов, используя API, и **приведите в ответе** на задание.
+```
+curl -X GET 'http://localhost:9200/_cat/indices?v'
+```
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-05-elasticsearch/elk/elk9.png)
 
 Получите состояние кластера `Elasticsearch`, используя API.
 
+Индекс 1:
+```
+curl -X GET 'http://localhost:9200/_cluster/health/ind-1?pretty'
+```
+
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-05-elasticsearch/elk/elk10.png)
+
+Индекс 2:
+```
+curl -X GET 'http://localhost:9200/_cluster/health/ind-2?pretty'
+```
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-05-elasticsearch/elk/elk11.png)
+
+Индекс 3:
+```
+curl -X GET 'http://localhost:9200/_cluster/health/ind-3?pretty'
+```
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-05-elasticsearch/elk/elk12.png)
+
+
 Как вы думаете, почему часть индексов и кластер находятся в состоянии yellow?
 
+Для корректной работы индексов (состояние green) в нашей конфигурации не хватило нод, для размещения всех реплик необходимо создать дополнительные 3 ноды.
+
 Удалите все индексы.
+```
+curl -XDELETE http://localhost:9200/ind-1,ind-2,ind-3
+```
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-05-elasticsearch/elk/elk13.png)
+
 
 **Важно**
 

@@ -207,6 +207,9 @@ mkdir snapshots
 2. Используя API, [зарегистрируйте](https://www.elastic.co/guide/en/elasticsearch/reference/current/snapshots-register-repository.html#snapshots-register-repository) 
 эту директорию как `snapshot repository` c именем `netology_backup`.
 
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-05-elasticsearch/elk/elk14.png)
+Первая попытка оказалась неудачной, необходимо доработать elasticsearch.yml, указав в нем путь к репозиторию снапшотов `path.repo`
+
 **Приведите в ответе** запрос API и результат вызова API для создания репозитория.
 
 Создайте индекс `test` с 0 реплик и 1 шардом и **приведите в ответе** список индексов.

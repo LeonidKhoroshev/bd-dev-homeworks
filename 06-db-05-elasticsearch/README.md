@@ -225,31 +225,50 @@ curl -X PUT "localhost:9200/_snapshot/netology-backup?pretty" -H 'Content-Type: 
 ```
 Получилось:
 ![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-05-elasticsearch/elk/elk15.png)
+
 **Приведите в ответе** запрос API и результат вызова API для создания репозитория.
+```
+curl -XPOST localhost:9200/_snapshot/netology_backup?pretty -H 'Content-Type: application/json' -d'{"type": "fs", "settings": { "location":"myrepo" }}'
+```
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-05-elasticsearch/elk/elk16.png)
 
-Создайте индекс `test` с 0 реплик и 1 шардом и **приведите в ответе** список индексов.
+3. Создайте индекс `test` с 0 реплик и 1 шардом и **приведите в ответе** список индексов.
+```
+curl -X PUT localhost:9200/test -H 'Content-Type: application/json' -d'{ "settings": { "number_of_shards": 1,  "number_of_replicas": 0 }}' {"acknowledged":true,"shards_acknowledged":true,"index":"test"}
+```
 
-[Создайте `snapshot`](https://www.elastic.co/guide/en/elasticsearch/reference/current/snapshots-take-snapshot.html) 
+Проверяем список индексов:
+```
+curl -X GET 'http://localhost:9200/test?pretty'
+```
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-05-elasticsearch/elk/elk17.png)
+
+4. [Создайте `snapshot`](https://www.elastic.co/guide/en/elasticsearch/reference/current/snapshots-take-snapshot.html) 
 состояния кластера `Elasticsearch`.
+```
+curl -X PUT localhost:9200/_snapshot/netology_backup/elasticsearch?wait_for_completion=true
+```
 
 **Приведите в ответе** список файлов в директории со `snapshot`.
+```
+docker exec -it cbd5a10e49b7 bash
+cd  elasticsearch-8.10.4
+cd snapshots
+cd myrepo
+ls
+```
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-05-elasticsearch/elk/elk18.png)
 
-Удалите индекс `test` и создайте индекс `test-2`. **Приведите в ответе** список индексов.
+5. Удалите индекс `test` и создайте индекс `test-2`. **Приведите в ответе** список индексов.
+```
+
+```
 
 [Восстановите](https://www.elastic.co/guide/en/elasticsearch/reference/current/snapshots-restore-snapshot.html) состояние
 кластера `Elasticsearch` из `snapshot`, созданного ранее. 
 
 **Приведите в ответе** запрос к API восстановления и итоговый список индексов.
 
-Подсказки:
-
-- возможно, вам понадобится доработать `elasticsearch.yml` в части директивы `path.repo` и перезапустить `Elasticsearch`.
-
----
-
-### Как cдавать задание
-
-Выполненное домашнее задание пришлите ссылкой на .md-файл в вашем репозитории.
 
 ---
 

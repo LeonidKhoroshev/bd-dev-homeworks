@@ -209,7 +209,22 @@ mkdir snapshots
 
 ![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-05-elasticsearch/elk/elk14.png)
 Первая попытка оказалась неудачной, необходимо доработать elasticsearch.yml, указав в нем путь к репозиторию снапшотов `path.repo`
-
+```
+path.repo: /var/lib/elasticsearch/elasticsearch-8.10.4/snapshots
+```
+Повторяем:
+```
+curl -X PUT "localhost:9200/_snapshot/netology-backup?pretty" -H 'Content-Type: application/json' -d'
+ {
+   "type": "fs",
+   "settings": {
+     "location": "/var/lib/elasticsearch/elasticsearch-8.10.4/snapshots"
+   }
+ }
+'
+```
+Получилось:
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-05-elasticsearch/elk/elk15.png)
 **Приведите в ответе** запрос API и результат вызова API для создания репозитория.
 
 Создайте индекс `test` с 0 реплик и 1 шардом и **приведите в ответе** список индексов.

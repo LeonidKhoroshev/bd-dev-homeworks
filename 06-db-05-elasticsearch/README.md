@@ -261,14 +261,20 @@ ls
 
 5. Удалите индекс `test` и создайте индекс `test-2`. **Приведите в ответе** список индексов.
 ```
+curl -XDELETE http://localhost:9200/test
+curl -X PUT localhost:9200/test-2 -H 'Content-Type: application/json' -d'{ "settings": { "number_of_shards": 1,  "number_of_replicas": 0 }}' {"acknowledged":true,"shards_acknowledged":true,"index":"test-2"}
+curl -X GET 'http://localhost:9200/_cat/indices?v'
+```
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-05-elasticsearch/elk/elk19.png)
 
+6. [Восстановите](https://www.elastic.co/guide/en/elasticsearch/reference/current/snapshots-restore-snapshot.html) состояние
+кластера `Elasticsearch` из `snapshot`, созданного ранее.
+```
+curl -X POST localhost:9200/_snapshot/netology_backup/elasticsearch/_restore?pretty -H 'Content-Type: application/json' -d'{"include_global_state":true}'
 ```
 
-[Восстановите](https://www.elastic.co/guide/en/elasticsearch/reference/current/snapshots-restore-snapshot.html) состояние
-кластера `Elasticsearch` из `snapshot`, созданного ранее. 
-
 **Приведите в ответе** запрос к API восстановления и итоговый список индексов.
-
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-05-elasticsearch/elk/elk20.png)
 
 ---
 

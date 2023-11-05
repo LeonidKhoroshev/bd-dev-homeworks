@@ -193,14 +193,18 @@ curl -XDELETE http://localhost:9200/ind-1,ind-2,ind-3
 
 ## Задача 3
 
-В этом задании вы научитесь:
+1. Создайте директорию `{путь до корневой директории с Elasticsearch в образе}/snapshots`.
 
-- создавать бэкапы данных,
-- восстанавливать индексы из бэкапов.
+Заходим внуть нашего контейнера с elasticsearch
+```
+docker exec -it 9f5dd6788283 bash
+```
+Создаем директорию snapshots с адресом `/var/lib/elasticsearch/snapshots`
+```
+mkdir snapshots
+```
 
-Создайте директорию `{путь до корневой директории с Elasticsearch в образе}/snapshots`.
-
-Используя API, [зарегистрируйте](https://www.elastic.co/guide/en/elasticsearch/reference/current/snapshots-register-repository.html#snapshots-register-repository) 
+2. Используя API, [зарегистрируйте](https://www.elastic.co/guide/en/elasticsearch/reference/current/snapshots-register-repository.html#snapshots-register-repository) 
 эту директорию как `snapshot repository` c именем `netology_backup`.
 
 **Приведите в ответе** запрос API и результат вызова API для создания репозитория.

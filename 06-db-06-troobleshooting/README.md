@@ -15,7 +15,9 @@ mongosh
 db.currentOp()
 ```
 - находим opid операции, которую нужно прервать:
-
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-06-troobleshooting/trsh/trsh1.png)
+Тут необходимо сделать небольшое примечание - для выполнения домашнего задания установлена [MongoDB 7.0 Community Edition](https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-red-hat/) на виртуальную маштину под управлением Centos7, большие базы данных я не нашел, поэтому работал с дефолтными:
+![Alt text](https://github.com/LeonidKhoroshev/bd-dev-homeworks/blob/main/06-db-06-troobleshooting/trsh/trsh2.png). Сложный CRUD-операций тут не много, поэтому для удаления выбрана операция с рандомным opid (для наглядности). 
 
 2. Предложите вариант решения проблемы с долгими (зависающими) запросами в MongoDB.
 
